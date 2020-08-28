@@ -1,6 +1,17 @@
+//this should be your domain name
+let hostname = "https://niny.io";
+//==============================================
 //standard express server
 const express = require("express");
 const app = express();
+//prevent abuse
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 60 // You can make max 60 links per min (pretty generous tbh)
+});
+app.use(limiter);
 
 //using keyV bc it's all we really need for a simple app like this
 const Keyv = require("keyv");
@@ -11,7 +22,7 @@ var urlregex = new RegExp(
   /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
 );
 //generate random links if no vanity url is provided
-const { v4 } = require("uuid");
+const words = require("friendly-words");
 
 //parse incoming json files
 app.use(express.json());
@@ -31,6 +42,9 @@ app.get("/", (request, response) => {
 //literally this simple, we check if vanity is taken. if not, we create a new entry in db
 app.post("/shortenlink", async (request, response) => {
   let json = request.body;
+  if (json.vanity.trim() == "") {
+    json.vanity = await generateuuid();
+  }
   //if the vanity is not taken
   if (!(await links.get(json.vanity))) {
     //if the link is valid
@@ -38,35 +52,13 @@ app.post("/shortenlink", async (request, response) => {
       links.set(json.vanity, json.newlink);
       response.json({
         status:
-          "Success! You can view your link at " +
-          request.get("host") +
-          "/" +
-          json.vanity
+          "Success! You can view your link at " + hostname + "/" + json.vanity
       });
     } else {
       response.status(400).send("URL invalid");
     }
-  } else if (json.vanity.trim() == "") {
-    //no vanity provided, generate one :D
-    let founduniqueidentifier = false;
-   //loop until we find a unique link that we can use to generate a shortened link 
-    while (!founduniqueidentifier) {
-      let unique = v4().substring(0, 6);
-      console.log(unique)
-      if (!(await links.get(unique))) {
-        founduniqueidentifier = true;
-        links.set(unique, json.newlink);
-        response.json({
-          status:
-            "Success! You can view your link at " +
-            request.get("host") +
-            "/" +
-            unique
-        });
-      }
-    }
   } else {
-    console.log(json.vanity.trim())
+    console.log(json.vanity.trim());
     response.status(409).send("Vanity already taken :(");
   }
 });
@@ -84,3 +76,32 @@ app.get("/:vanity", async (request, response) => {
     response.status(404).send("Vanity does not exist");
   }
 });
+async function generateuuid() {
+  //no vanity provided, generate one :D
+  let founduniqueidentifier = false;
+  //loop until we find a unique link that we can use to generate a shortened link
+  while (!founduniqueidentifier) {
+    let unique = await getwords(1, "-");
+    console.log(unique);
+    if (!(await links.get(unique))) {
+      founduniqueidentifier = true;
+      return unique;
+    }
+  }
+}
+async function getwords(count, seperator) {
+  const { predicates, objects } = words;
+  const pCount = predicates.length;
+  const oCount = objects.length;
+  const output = [];
+
+  for (let i = 0; i < count; i++) {
+    const pair = [
+      predicates[Math.floor(Math.random() * pCount)],
+      objects[Math.floor(Math.random() * oCount)]
+    ];
+    output.push(pair.join(seperator));
+  }
+
+  return output;
+}
