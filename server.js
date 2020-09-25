@@ -16,7 +16,6 @@ app.use(limiter);
 //using keyV bc it's all we really need for a simple app like this
 const Keyv = require("keyv");
 const links = new Keyv("sqlite://database.sqlite");
-
 //regex used to validate links
 var urlregex = new RegExp(
   /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
@@ -29,6 +28,7 @@ app.use(express.json());
 
 //serve static files in public directory
 app.use(express.static("public"));
+//https redirect
 
 //listen on port 3000
 app.listen(3000, () => {
@@ -41,6 +41,7 @@ app.get("/", (request, response) => {
 });
 //literally this simple, we check if vanity is taken. if not, we create a new entry in db
 app.post("/shortenlink", async (request, response) => {
+  try{
   let json = request.body;
   if (json.vanity.trim() == "") {
     json.vanity = await generateuuid();
@@ -52,7 +53,7 @@ app.post("/shortenlink", async (request, response) => {
       links.set(json.vanity, json.newlink);
       response.json({
         status:
-          "Success! You can view your link at " + hostname + "/" + json.vanity
+          "Success! You can view your link at " + hostname + "/" + json.vanity,vanity:json.vanity,url:hostname+"/"+json.vanity
       });
     } else {
       response.status(400).send("URL invalid");
@@ -61,10 +62,16 @@ app.post("/shortenlink", async (request, response) => {
     console.log(json.vanity.trim());
     response.status(409).send("Vanity already taken :(");
   }
+}catch(e){
+      response.status(400).send("Bad Request");
+console.log(e)
+
+}
 });
 
 //direct link to vanity using /vanity instead of using query params for shorter links :D
 app.get("/:vanity", async (request, response) => {
+ try{
   let vanityurl = request.params.vanity;
   let finalurl = await links.get(vanityurl);
   if (finalurl) {
@@ -74,6 +81,19 @@ app.get("/:vanity", async (request, response) => {
     response.redirect(finalurl);
   } else {
     response.status(404).send("Vanity does not exist");
+  }
+  }catch(e){
+      response.status(400).send("Bad Request");
+console.log(e)
+}
+});
+//integration with discord.bio :)
+app.get("/p/:vanity", async (request, response) => {
+  try{
+  let vanityurl = request.params.vanity;
+    response.redirect("https://discord.bio/p/"+vanityurl);
+  }catch(e){
+        response.status(404).send("Vanity does not exist");
   }
 });
 async function generateuuid() {
