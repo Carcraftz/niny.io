@@ -23,10 +23,11 @@ function genLink() {
       }
     })
     .then(json => {
-        sendAlert(
+        sendLink(
           "Success",
           json.status,
-          "success"
+          "success",
+          json.url
         );    });
 }
 
@@ -65,4 +66,7 @@ $("#vanity").velocity({
 var inputs = document.querySelectorAll('#vanity');
 for(let i=0; i<inputs.length; i++){
     inputs[i].setAttribute('size',inputs[i].getAttribute('placeholder').length);
+}
+if (location.protocol !== 'https:') {
+    location.replace(`https:${location.href.substring(location.protocol.length)}`);
 }
