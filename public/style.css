@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap");
 
+body, html {
+  height: 95%;
+}
+
 body {
   background: #1C1F29;
   text-align: center;
@@ -7,33 +11,45 @@ body {
   color: white;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 nav {
   width: 100%;
-  text-align: left;
 }
 
 nav h1 {
   color: #32DAF5;
   font-weight: 900;
+  font-size: 3rem;
   margin-left: 20px;
 }
 
 #urltoshorten {
   background: #2C333D;
   color: white;
-  padding: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 20px 30px;
+  box-shadow: 0px 9px 15px 0 rgba(0, 0, 0, 0.2);
   border: none;
   border-radius: 10rem;
   width: 35vw;
+  border: 1px solid transparent;
+  transition: .3s;
 }
+
 form {
   display: flex;
   flex-direction: row;
   text-align: center;
-  margin-top: 15vh;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#urltoshorten:focus {
+  border: 1px solid rgba(50, 218, 345, .5);
 }
 
 input {
@@ -62,24 +78,26 @@ button {
   justify-content: center; /* center horizontally */
   align-items: center; /* center vertically */
 }
-body,
-html {
-  height: 100%;
-}
+
 #vanityflex {
     display: flex;
   flex-direction: row;
   text-align: center;
 }
 
-#vanity{
-    background: #2C333D;
-  
+#vanity {
+  background: #2C333D;
   color: white;
-  padding: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 20px 30px;
+  box-shadow: 0px 9px 15px 0 rgba(0, 0, 0, 0.2);
   border: none;
   margin-left:1vw;
-  height:1em;
+  height: 1em;
   border-radius: 10rem;
+  border: 1px solid transparent;
+  transition: .3s;
+}
+
+#vanity:focus {
+  border: 1px solid rgba(50, 218, 345, .5);
 }
