@@ -31,38 +31,38 @@ function genLink() {
         );    });
 }
 
+// removed by smuke
+// $( "#urltoshorten" ).focus(function() {
+// $("#urltoshorten").velocity({
+//    transform: ["scale(1.05)", "scale(1)"],
+// }, {
+//    duration: 500,
+// });
+// });
 
-$( "#urltoshorten" ).focus(function() {
-$("#urltoshorten").velocity({
-   transform: ["scale(1.05)", "scale(1)"],
-}, {
-   duration: 500,
-});
-});
+// $( "#urltoshorten" ).blur(function() {
+// $("#urltoshorten").velocity({
+//    transform: ["scale(1)", "scale(1.05)"],
+// }, {
+//    duration: 500,
+// });
 
-$( "#urltoshorten" ).blur(function() {
-$("#urltoshorten").velocity({
-   transform: ["scale(1)", "scale(1.05)"],
-}, {
-   duration: 500,
-});
+// });
+// $( "#vanity" ).focus(function() {
+// $("#vanity").velocity({
+//    transform: ["scale(1.03)", "scale(1)"],
+// }, {
+//    duration: 500,
+// });
+// });
 
-});
-$( "#vanity" ).focus(function() {
-$("#vanity").velocity({
-   transform: ["scale(1.03)", "scale(1)"],
-}, {
-   duration: 500,
-});
-});
-
-$( "#vanity" ).blur(function() {
-$("#vanity").velocity({
-   transform: ["scale(1)", "scale(1.03)"],
-}, {
-   duration: 500,
-});
-})
+// $( "#vanity" ).blur(function() {
+// $("#vanity").velocity({
+//    transform: ["scale(1)", "scale(1.03)"],
+// }, {
+//    duration: 500,
+// });
+// })
 var inputs = document.querySelectorAll('#vanity');
 for(let i=0; i<inputs.length; i++){
     inputs[i].setAttribute('size',inputs[i].getAttribute('placeholder').length);
