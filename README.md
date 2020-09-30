@@ -1,6 +1,7 @@
 # niny.io
 
-A link shortener service! No nonsense, just simple shortening. Please do not hesitate to submit pull requests and bug/security fixes if you find any issues.
+A link shortener service! No nonsense, just simple shortening. Please do not
+hesitate to submit pull requests and bug/security fixes if you find any issues.
 
 ## Features
 
@@ -18,7 +19,8 @@ Integration with namespaces such as discord.bio (more coming soon)
 
 ### Credits
 
-@xsmuke - helped me make the design and frontend suck less in the latest update :)
+@xsmuke - helped me make the design and frontend suck less in the latest update
+:)
 
 ### Screenshots
 
