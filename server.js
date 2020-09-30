@@ -4,6 +4,7 @@ let hostname = "https://niny.io";
 //standard express server
 const express = require("express");
 const app = express();
+//fix the issue that ratelimited everyone if there was one bad actor spamming the website (bc it's hosted on glitch with a reverse proxy, you can comment this out if you're not hosting on glitch)
 app.enable('trust proxy')
 //prevent abuse
 const rateLimit = require("express-rate-limit");
