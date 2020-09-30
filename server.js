@@ -4,9 +4,10 @@ let hostname = "https://niny.io";
 //standard express server
 const express = require("express");
 const app = express();
+app.enable('trust proxy')
 //prevent abuse
 const rateLimit = require("express-rate-limit");
-
+app.all('*', checkHttps)
 const limiter = rateLimit({
   windowMs: 60 * 1000,
   max: 60 // You can make max 60 links per min (pretty generous tbh)
@@ -125,3 +126,14 @@ async function getwords(count, seperator) {
 
   return output;
 }
+//only works on glitch.me domain for now
+function checkHttps(req, res, next){
+  // protocol check, if http, redirect to https
+  console.log(req.get('X-Forwarded-Proto'))
+  if(req.get('X-Forwarded-Proto').indexOf("https")!=-1){
+    return next()
+  } else {
+    res.redirect('https://' + req.hostname + req.url);
+  }
+}
+

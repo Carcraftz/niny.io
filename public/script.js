@@ -67,6 +67,7 @@ var inputs = document.querySelectorAll('#vanity');
 for(let i=0; i<inputs.length; i++){
     inputs[i].setAttribute('size',inputs[i].getAttribute('placeholder').length);
 }
+//temporary fix until i figure out server side redirect using a custom domain
 if (location.protocol !== 'https:') {
     location.replace(`https:${location.href.substring(location.protocol.length)}`);
 }
