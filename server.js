@@ -7,13 +7,13 @@ const app = express();
 // fix the issue that ratelimited everyone if there was one bad actor spamming
 // the website (bc it's hosted on glitch with a reverse proxy, you can comment
 // this out if you're not hosting on glitch)
-app.enable('trust proxy')
+app.enable("trust proxy");
 // prevent abuse
 const rateLimit = require("express-rate-limit");
-app.all('*', checkHttps)
+app.all("*", checkHttps);
 const limiter = rateLimit({
-  windowMs : 60 * 1000,
-  max : 60 // You can make max 60 links per min (pretty generous tbh)
+  windowMs: 60 * 1000,
+  max: 60, // You can make max 60 links per min (pretty generous tbh)
 });
 app.use(limiter);
 
@@ -22,7 +22,8 @@ const Keyv = require("keyv");
 const links = new Keyv("sqlite://database.sqlite");
 // regex used to validate links
 var urlregex = new RegExp(
-    /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi);
+  /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
+);
 // generate random links if no vanity url is provided
 const words = require("friendly-words");
 
@@ -34,12 +35,14 @@ app.use(express.static("public"));
 // https redirect
 
 // listen on port 3000
-app.listen(3000, () => { console.log(`psty app listening at 3000`); });
+app.listen(3000, () => {
+  console.log(`psty app listening at 3000`);
+});
 
 // serve webpage
-app.get("/",
-        (request,
-         response) => { response.sendFile(__dirname + "/views/index.html"); });
+app.get("/", (request, response) => {
+  response.sendFile(__dirname + "/views/index.html");
+});
 // literally this simple, we check if vanity is taken. if not, we create a new
 // entry in db
 app.post("/shortenlink", async (request, response) => {
@@ -54,10 +57,13 @@ app.post("/shortenlink", async (request, response) => {
       if (json.newlink.match(urlregex)) {
         links.set(json.vanity, json.newlink);
         response.json({
-          status : "Success! You can view your link at " + hostname + "/" +
-                       json.vanity,
-          vanity : json.vanity,
-          url : hostname + "/" + json.vanity
+          status:
+            "Success! You can view your link at " +
+            hostname +
+            "/" +
+            json.vanity,
+          vanity: json.vanity,
+          url: hostname + "/" + json.vanity,
         });
       } else {
         response.status(400).send("URL invalid");
@@ -68,7 +74,7 @@ app.post("/shortenlink", async (request, response) => {
     }
   } catch (e) {
     response.status(400).send("Bad Request");
-    console.log(e)
+    console.log(e);
   }
 });
 
@@ -88,7 +94,7 @@ app.get("/:vanity", async (request, response) => {
     }
   } catch (e) {
     response.status(400).send("Bad Request");
-    console.log(e)
+    console.log(e);
   }
 });
 // integration with discord.bio :)
@@ -115,7 +121,7 @@ async function generateuuid() {
   }
 }
 async function getwords(count, seperator) {
-  const {predicates, objects} = words;
+  const { predicates, objects } = words;
   const pCount = predicates.length;
   const oCount = objects.length;
   const output = [];
@@ -123,7 +129,7 @@ async function getwords(count, seperator) {
   for (let i = 0; i < count; i++) {
     const pair = [
       predicates[Math.floor(Math.random() * pCount)],
-      objects[Math.floor(Math.random() * oCount)]
+      objects[Math.floor(Math.random() * oCount)],
     ];
     output.push(pair.join(seperator));
   }
@@ -133,11 +139,10 @@ async function getwords(count, seperator) {
 // only works on glitch.me domain for now
 function checkHttps(req, res, next) {
   // protocol check, if http, redirect to https
-  console.log(req.get('X-Forwarded-Proto'))
-  if (req.get('X-Forwarded-Proto').indexOf("https") != -1) {
-    return next()
-  }
-  else {
-    res.redirect('https://' + req.hostname + req.url);
+  console.log(req.get("X-Forwarded-Proto"));
+  if (req.get("X-Forwarded-Proto").indexOf("https") != -1) {
+    return next();
+  } else {
+    res.redirect("https://" + req.hostname + req.url);
   }
 }
