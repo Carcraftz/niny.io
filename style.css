@@ -36,6 +36,7 @@ nav h1 {
   border: none;
   border-radius: 10rem;
   width: 65vw;
+  max-width:750px;
   border: 1px solid transparent;
   transition: .3s;
 }
