@@ -2,7 +2,7 @@ function genLink() {
   let vanity = document.getElementById("vanity").value;
   let urltoshorten = document.getElementById("urltoshorten").value;
   const data = { vanity: vanity, newlink: urltoshorten };
-  fetch("/shortenlink", {
+  fetch("niny.io/shortenlink", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
