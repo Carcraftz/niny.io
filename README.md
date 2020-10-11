@@ -16,6 +16,8 @@ READABLE Vanity generation with real words (as opposed to other platforms)
 
 Integration with namespaces such as discord.bio (more coming soon)
 
+ShareX and Discord support, allowing you to easily shorten URLs from your favorite platform :)
+
 ### Credits
 
 @xsmuke - helped me make the design and frontend suck less in the latest update :)
