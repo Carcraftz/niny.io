@@ -6,11 +6,12 @@ import requests
 import json
 import toml
 data = toml.load("config.toml")
-client = commands.Bot(command_prefix= 'n.')
+client = commands.Bot(command_prefix='n.')
 endpoint = data['endpoint']
 shortner = data['shortner']
 client_id = data['client_id']
 supportarea = data['supportarea']
+
 
 @client.event
 async def on_ready():
@@ -20,6 +21,7 @@ async def on_ready():
     print('I am the following number of servers')
     print({len(client.guilds)})
 
+
 @client.command(aliases=["s", "shorten"])
 async def newurl(ctx, handle, url):
     '''Shortens a url, you can also use "n.s"'''
@@ -28,7 +30,8 @@ async def newurl(ctx, handle, url):
         data["vanity"] = handle
         data["newlink"] = url
         # note that you should not use requests, ill change this in the future once i figure out how the fuck to use aiohttp
-        r = requests.post(endpoint, data=json.dumps(data), headers={"Content-Type": "application/json"})
+        r = requests.post(endpoint, data=json.dumps(data), headers={
+                          "Content-Type": "application/json"})
         textresult = r.text
         statuscode = r.status_code
         print(f"STATUS CODE LOG: {statuscode}")
@@ -41,12 +44,12 @@ async def newurl(ctx, handle, url):
     except:
         await ctx.send(f"Oh no, **its all gone terribly wrong** (not really, its just dramatic.) Please send a friend request to: {supportarea}")
 
+
 @client.command(aliases=["i"])
 async def invite(ctx):
     '''Gives you the bot invite'''
     await ctx.send(f"Bot invite: <https://discord.com/oauth2/authorize?client_id={client_id}&scope=bot&permissions=19456>")
     print("BOT INVITE COMMAND RAN")
-
 
 
 print("Connecting to discord...")
