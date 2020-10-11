@@ -19,6 +19,7 @@ Integration with namespaces such as discord.bio (more coming soon)
 ### Credits
 
 @xsmuke - helped me make the design and frontend suck less in the latest update :)
+
 @fadedmax - created niny.io discord bot!!!
 
 ### Screenshots
