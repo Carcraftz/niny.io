@@ -1,0 +1,6 @@
+token = "" # bots discord token
+endpoint = "https://niny.io/shortenlink" # endpoint to shorten links
+shortner = "https://niny.io" # root domain 
+client_id = "" # client id of the bot for a invite
+supportarea = "" # user to send the user to whenever things go wrong
+status = "" # bots "playing" status
