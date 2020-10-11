@@ -1,10 +1,11 @@
 # Alright, Lets import all the stuff we need to run the bot.
-import discord
-from discord.ext.commands import Bot
-from discord.ext import commands
-import requests
 import json
+
+import discord
+import requests
 import toml
+from discord.ext import commands
+from discord.ext.commands import Bot
 
 data = toml.load("config.toml")
 client = commands.Bot(command_prefix="n.")
