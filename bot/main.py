@@ -19,11 +19,8 @@ supportarea = data["supportarea"]
 async def on_ready():
     print("done")
     print("Connected to discord as: {0.user}".format(client))
-    await client.change_presence(
-        activity=discord.Activity(
-            type=discord.ActivityType.watching, name=data["status"]
-        )
-    )
+    await client.change_presence(activity=discord.Activity(
+        type=discord.ActivityType.watching, name=data["status"]))
     print("I am the following number of servers")
     print({len(client.guilds)})
 
