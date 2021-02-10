@@ -3,7 +3,7 @@
   "Name": "niny.io",
   "DestinationType": "URLShortener",
   "RequestMethod": "POST",
-  "RequestURL": "https://niny.glitch.me/shortenlink",
+  "RequestURL": "https://niny.io/shortenlink",
   "Body": "JSON",
   "Data": "{\n  \"newlink\": \"$input$\",\n  \"vanity\":\"\"\n}",
   "URL": "$json:url$"
