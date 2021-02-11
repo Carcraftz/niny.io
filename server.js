@@ -14,6 +14,10 @@ const limiter = rateLimit({
   max: 60 // You can make max 60 links per min (pretty generous tbh)
 });
 app.use(limiter);
+// add handlebars for templating
+const exphbs = require('express-handlebars');
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
 
 //using keyV bc it's all we really need for a simple app like this
 const Keyv = require("keyv");
@@ -39,7 +43,7 @@ app.listen(3000, () => {
 
 //serve webpage
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
+  response.render('index', {hostname: hostname.split('://')[1],layout: false})
 });
 //literally this simple, we check if vanity is taken. if not, we create a new entry in db
 app.post("/shortenlink", async (request, response) => {
