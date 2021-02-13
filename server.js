@@ -12,8 +12,8 @@ app.enable("trust proxy");
 const rateLimit = require("express-rate-limit");
 app.all("*", checkHttps);
 const limiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 60, // You can make max 60 links per min (pretty generous tbh)
+  windowMs : 60 * 1000,
+  max : 60, // You can make max 60 links per min (pretty generous tbh)
 });
 app.use(limiter);
 // add handlebars for templating
@@ -26,8 +26,7 @@ const Keyv = require("keyv");
 const links = new Keyv("sqlite://database.sqlite");
 // regex used to validate links
 var urlregex = new RegExp(
-  /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi
-);
+    /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi);
 // generate random links if no vanity url is provided
 const words = require("friendly-words");
 
@@ -39,15 +38,13 @@ app.use(express.static("public"));
 // https redirect
 
 // listen on port 3000
-app.listen(3000, () => {
-  console.log(`psty app listening at 3000`);
-});
+app.listen(3000, () => { console.log(`psty app listening at 3000`); });
 
 // serve webpage
 app.get("/", (request, response) => {
   response.render("index", {
-    hostname: hostname.split("://")[1],
-    layout: false,
+    hostname : hostname.split("://")[1],
+    layout : false,
   });
 });
 // literally this simple, we check if vanity is taken. if not, we create a new
@@ -64,13 +61,10 @@ app.post("/shortenlink", async (request, response) => {
       if (json.newlink.match(urlregex)) {
         links.set(json.vanity, json.newlink);
         response.json({
-          status:
-            "Success! You can view your link at " +
-            hostname +
-            "/" +
-            json.vanity,
-          vanity: json.vanity,
-          url: hostname + "/" + json.vanity,
+          status : "Success! You can view your link at " + hostname + "/" +
+                       json.vanity,
+          vanity : json.vanity,
+          url : hostname + "/" + json.vanity,
         });
       } else {
         response.status(400).send("URL invalid");
@@ -128,7 +122,7 @@ async function generateuuid() {
   }
 }
 async function getwords(count, seperator) {
-  const { predicates, objects } = words;
+  const {predicates, objects} = words;
   const pCount = predicates.length;
   const oCount = objects.length;
   const output = [];
