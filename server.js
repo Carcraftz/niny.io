@@ -1,5 +1,5 @@
 // this should be your domain name
-let hostname = process.env.HOSTNAME || 'https://niny.io';
+let hostname = process.env.HOSTNAME || "https://niny.io";
 //==============================================
 // standard express server
 const express = require("express");
